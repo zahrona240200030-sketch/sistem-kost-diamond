@@ -351,44 +351,43 @@ def test_db():
         return f"✅ Database OK! Total mahasiswa: {count}"
     except Exception as e:
         return f"❌ Database ERROR: {str(e)}"
-
+@app.route('/auto-admin')
+def auto_admin():
+    """Route khusus untuk create admin"""
+    # Hapus semua user
+    User.query.delete()
+    
+    # Buat admin baru
+    admin_password = generate_password_hash('admin123')
+    admin_user = User(username='admin', password=admin_password, role='admin')
+    db.session.add(admin_user)
+    db.session.commit()
+    
+    return """
+    <h1>✅ ADMIN BERHASIL DIBUAT!</h1>
+    <p>Username: <strong>admin</strong></p>
+    <p>Password: <strong>admin123</strong></p>
+    <br>
+    <a href='/login'>KLIK DI SINI UNTUK LOGIN</a>
+    """
 # Buat database dengan FORCE RESET
 def init_db():
     with app.app_context():
-        try:
-            print("🔄 Force reset database...")
-            db.drop_all()
-            print("✅ Tables dropped")
-            
-            db.create_all()
-            print("✅ New tables created")
-            
-            # Buat admin user
-            # Buat admin user jika belum ada
-        if not User.query.filter_by(username='admin').first():
+        db.create_all()
+        
+        # SELALU buat admin baru setiap deploy
+        admin = User.query.filter_by(username='admin').first()
+        if admin:
+            # Update password jika admin sudah ada
+            admin.password = generate_password_hash('admin123')
+        else:
+            # Buat admin baru
             admin_password = generate_password_hash('admin123')
             admin_user = User(username='admin', password=admin_password, role='admin')
             db.session.add(admin_user)
-            db.session.commit()
-            print("✅ Admin user created: username=admin, password=admin123")
-        else:
-            # Reset password admin yang sudah ada
-            admin = User.query.filter_by(username='admin').first()
-            admin.password = generate_password_hash('admin123')
-            db.session.commit()
-            print("✅ Admin password reset: admin / admin123")
-            
-            # Test schema
-            columns = db.session.execute(db.text("PRAGMA table_info(mahasiswa)")).fetchall()
-            column_names = [col[1] for col in columns]
-            print(f"✅ Mahasiswa table columns: {column_names}")
-            
-        except Exception as e:
-            print(f"❌ Error: {e}")
-            import sqlite3
-            if os.path.exists('identitas_kost.db'):
-                os.remove('identitas_kost.db')
-            db.create_all()
+        
+        db.session.commit()
+        print("🎯 ADMIN CREDENTIALS: admin / admin123")
 
 if __name__ == '__main__':
     with app.app_context():
@@ -399,3 +398,4 @@ else:
     with app.app_context():
 
         db.create_all()
+
