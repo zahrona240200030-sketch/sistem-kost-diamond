@@ -364,12 +364,19 @@ def init_db():
             print("✅ New tables created")
             
             # Buat admin user
-            if not User.query.filter_by(username='admin').first():
-                admin_password = generate_password_hash('admin123')
-                admin_user = User(username='admin', password=admin_password, role='admin')
-                db.session.add(admin_user)
-                db.session.commit()
-                print("✅ Admin user created: admin / admin123")
+            # Buat admin user jika belum ada
+        if not User.query.filter_by(username='admin').first():
+            admin_password = generate_password_hash('admin123')
+            admin_user = User(username='admin', password=admin_password, role='admin')
+            db.session.add(admin_user)
+            db.session.commit()
+            print("✅ Admin user created: username=admin, password=admin123")
+        else:
+            # Reset password admin yang sudah ada
+            admin = User.query.filter_by(username='admin').first()
+            admin.password = generate_password_hash('admin123')
+            db.session.commit()
+            print("✅ Admin password reset: admin / admin123")
             
             # Test schema
             columns = db.session.execute(db.text("PRAGMA table_info(mahasiswa)")).fetchall()
@@ -390,4 +397,5 @@ if __name__ == '__main__':
 else:
     # Untuk production (Vercel)
     with app.app_context():
+
         db.create_all()
