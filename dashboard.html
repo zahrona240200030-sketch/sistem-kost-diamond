@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('dashboard') }}">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('mahasiswa') }}">
+                            <i class="bi bi-people"></i> Data Mahasiswa
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('tambah_mahasiswa') }}">
+                            <i class="bi bi-person-plus"></i> Tambah Mahasiswa
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_status_langganan') }}">
+                            <i class="bi bi-graph-up"></i> Status Langganan
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_keluhan') }}">
+                            <i class="bi bi-chat-dots"></i> Keluhan & Saran
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{{ url_for('logout') }}">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2"><i class="bi bi-speedometer2"></i> Dashboard</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <span class="me-2">Halo, <strong>{{ session.username }}</strong></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4>{{ total_mahasiswa }}</h4>
+                                    <p class="card-text">Total Mahasiswa</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="bi bi-people fs-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card text-white bg-pink mb-3">
+                        <div class="card-body text-center">
+                            <i class="bi bi-pencil-square fs-1"></i>
+                            <h5>Update Status</h5>
+                            <p>Update status langganan kost</p>
+                            <a href="{{ url_for('status_langganan') }}" class="btn btn-light">Akses</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-info mb-3">
+                        <div class="card-body text-center">
+                            <i class="bi bi-chat-dots fs-1"></i>
+                            <h5>Kirim Keluhan</h5>
+                            <p>Sampaikan keluhan & saran</p>
+                            <a href="{{ url_for('keluhan') }}" class="btn btn-light">Akses</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-success mb-3">
+                        <div class="card-body text-center">
+                            <i class="bi bi-eye fs-1"></i>
+                            <h5>Lihat Status</h5>
+                            <p>Lihat status semua penghuni</p>
+                            <a href="{{ url_for('status_kost') }}" class="btn btn-light">Akses</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5><i class="bi bi-clock-history"></i> Data Mahasiswa Terbaru</h5>
+                </div>
+                <div class="card-body">
+                    {% if mahasiswa_list %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>NIM</th>
+                                    <th>Nama</th>
+                                    <th>Kamar</th>
+                                    <th>Asal</th>
+                                    <th>Jurusan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for mhs in mahasiswa_list %}
+                                <tr>
+                                    <td>{{ mhs.nim }}</td>
+                                    <td>{{ mhs.nama }}</td>
+                                    <td>{{ mhs.kamar }}</td>
+                                    <td>{{ mhs.asal }}</td>
+                                    <td>{{ mhs.jurusan }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-muted">Belum ada data mahasiswa.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

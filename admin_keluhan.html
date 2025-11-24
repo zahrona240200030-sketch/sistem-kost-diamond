@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('dashboard') }}">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('mahasiswa') }}">
+                            <i class="bi bi-people"></i> Data Mahasiswa
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('tambah_mahasiswa') }}">
+                            <i class="bi bi-person-plus"></i> Tambah Mahasiswa
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_status_langganan') }}">
+                            <i class="bi bi-graph-up"></i> Status Langganan
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('admin_keluhan') }}">
+                            <i class="bi bi-chat-dots"></i> Keluhan & Saran
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{{ url_for('logout') }}">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">📝 Keluhan & Saran</h1>
+            </div>
+
+            {% if keluhan_list %}
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Nama</th>
+                                    <th>Kamar</th>
+                                    <th>Keluhan</th>
+                                    <th>Foto</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for k in keluhan_list %}
+                                <tr>
+                                    <td>{{ k.tanggal_keluhan.strftime('%d/%m/%Y') }}</td>
+                                    <td>{{ k.nama_pengeluh }}</td>
+                                    <td>{{ k.kamar or '-' }}</td>
+                                    <td>{{ k.isi_keluhan[:100] }}{% if k.isi_keluhan|length > 100 %}...{% endif %}</td>
+                                    <td>
+                                        {% if k.foto_keluhan %}
+                                        <a href="/static/uploads/{{ k.foto_keluhan }}" target="_blank">
+                                            📷 Lihat
+                                        </a>
+                                        {% else %}
+                                        -
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="badge {% if k.status == 'pending' %}bg-warning
+                                                          {% elif k.status == 'ditindak' %}bg-info
+                                                          {% else %}bg-success{% endif %}">
+                                            {{ k.status|upper }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <form method="POST" action="{{ url_for('update_status_keluhan', id=k.id) }}" class="d-inline">
+                                            <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                                                <option value="pending" {% if k.status=='pending' %}selected{% endif %}>Pending</option>
+                                                <option value="ditindak" {% if k.status=='ditindak' %}selected{% endif %}>Ditindak</option>
+                                                <option value="selesai" {% if k.status=='selesai' %}selected{% endif %}>Selesai</option>
+                                            </select>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="text-center py-5">
+                <p class="text-muted">Belum ada keluhan yang masuk.</p>
+            </div>
+            {% endif %}
+        </main>
+    </div>
+</div>
+{% endblock %}

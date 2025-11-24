@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .status-container {
+        background: linear-gradient(135deg, rgba(236, 72, 153, 0.9) 0%, rgba(219, 39, 119, 0.9) 100%);
+        min-height: 100vh;
+        padding: 40px 20px;
+    }
+    .status-card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .status-badge-lanjut {
+        background: #10b981;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-weight: bold;
+    }
+    .status-badge-stop {
+        background: #ef4444;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-weight: bold;
+    }
+</style>
+
+<div class="status-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="status-card">
+                    <h1 class="text-center mb-4">🏠 Status Langganan Kost</h1>
+                    <p class="text-center text-muted mb-4">
+                        Informasi status langganan penghuni kost untuk bulan <strong>{{ bulan_sekarang }}</strong>
+                    </p>
+                    
+                    {% if status_list %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nama Penghuni</th>
+                                    <th>Kamar</th>
+                                    <th>Status</th>
+                                    <th>Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for status in status_list %}
+                                <tr>
+                                    <td>{{ status.nama }}</td>
+                                    <td>{{ status.kamar }}</td>
+                                    <td>
+                                        {% if status.status == 'lanjut' %}
+                                        <span class="status-badge-lanjut">LANJUT</span>
+                                        {% else %}
+                                        <span class="status-badge-stop">STOP</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if status.status == 'lanjut' %}
+                                        ✅ Masih berlangganan
+                                        {% else %}
+                                        ❌ Berhenti berlangganan
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <p class="text-muted">Belum ada data status langganan untuk bulan ini.</p>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="text-center mt-4">
+                        <a href="{{ url_for('status_langganan') }}" class="btn btn-pink me-2">📝 Update Status Saya</a>
+                        <a href="{{ url_for('keluhan') }}" class="btn btn-outline-pink me-2">📝 Kirim Keluhan</a>
+                        <a href="{{ url_for('index') }}" class="btn btn-secondary">🏠 Kembali ke Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

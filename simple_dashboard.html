@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('simple_dashboard') }}">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{{ url_for('logout') }}">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2"><i class="bi bi-speedometer2"></i> Dashboard Sederhana</h1>
+                <span>Halo, <strong>{{ session.username }}</strong></span>
+            </div>
+
+            <div class="alert alert-success">
+                <h4>✅ Database Berhasil Diperbaiki!</h4>
+                <p>Schema database sudah diperbarui dengan kolom yang benar.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5>Test Database:</h5>
+                    <a href="{{ url_for('test_db') }}" class="btn btn-primary" target="_blank">
+                        Test Koneksi Database
+                    </a>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5>Langkah Selanjutnya:</h5>
+                    <ol>
+                        <li>Pastikan test database berhasil</li>
+                        <li>Ganti ke dashboard lengkap</li>
+                        <li>Tambah data mahasiswa</li>
+                    </ol>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

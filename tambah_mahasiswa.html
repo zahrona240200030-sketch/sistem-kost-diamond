@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('dashboard') }}">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('mahasiswa') }}">
+                            <i class="bi bi-people"></i> Data Mahasiswa
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('tambah_mahasiswa') }}">
+                            <i class="bi bi-person-plus"></i> Tambah Mahasiswa
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_status_langganan') }}">
+                            <i class="bi bi-graph-up"></i> Status Langganan
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_keluhan') }}">
+                            <i class="bi bi-chat-dots"></i> Keluhan & Saran
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{{ url_for('logout') }}">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2"><i class="bi bi-person-plus"></i> Tambah Data Mahasiswa</h1>
+                <a href="{{ url_for('mahasiswa') }}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Kembali
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="nim" class="form-label">NIM *</label>
+                                    <input type="text" class="form-control" id="nim" name="nim" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nama" class="form-label">Nama Lengkap *</label>
+                                    <input type="text" class="form-control" id="nama" name="nama" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="kamar" class="form-label">Nomor Kamar *</label>
+                                    <input type="text" class="form-control" id="kamar" name="kamar" 
+                                           placeholder="Contoh: A1, B5, C12" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="jurusan" class="form-label">Jurusan *</label>
+                                    <input type="text" class="form-control" id="jurusan" name="jurusan" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="asal" class="form-label">Asal Kota *</label>
+                                    <input type="text" class="form-control" id="asal" name="asal" 
+                                           placeholder="Contoh: Jakarta, Bandung, Surabaya" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="no_hp" class="form-label">No. HP Mahasiswa *</label>
+                                    <input type="text" class="form-control" id="no_hp" name="no_hp" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="no_hp_ortu" class="form-label">No. HP Orang Tua *</label>
+                                    <input type="text" class="form-control" id="no_hp_ortu" name="no_hp_ortu" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> Simpan Data
+                        </button>
+                        <a href="{{ url_for('mahasiswa') }}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Batal
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

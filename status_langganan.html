@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .status-container {
+        background: linear-gradient(135deg, rgba(236, 72, 153, 0.9) 0%, rgba(219, 39, 119, 0.9) 100%);
+        min-height: 100vh;
+        padding: 40px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .status-card {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+    }
+    .kode-display {
+        background: #f8f9fa;
+        border: 2px dashed #ec4899;
+        border-radius: 10px;
+        padding: 15px;
+        margin: 15px 0;
+        font-family: monospace;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #ec4899;
+    }
+    .btn-status {
+        padding: 20px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-radius: 15px;
+        margin: 10px 0;
+        border: 3px solid transparent;
+        transition: all 0.3s ease;
+    }
+    .btn-lanjut {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+    }
+    .btn-lanjut:hover {
+        border-color: #10b981;
+        transform: translateY(-3px);
+    }
+    .btn-stop {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: white;
+    }
+    .btn-stop:hover {
+        border-color: #ef4444;
+        transform: translateY(-3px);
+    }
+</style>
+
+<div class="status-container">
+    <div class="status-card">
+        <div style="font-size: 4rem; color: #ec4899; margin-bottom: 20px;">
+            📝
+        </div>
+        
+        <h1 class="welcome-title">Update Status Langganan</h1>
+        <p class="welcome-description">
+            Untuk bulan <strong>{{ bulan_sekarang }}</strong><br>
+            Masukkan kode akses Anda dan pilih status
+        </p>
+
+        <form method="POST">
+            <div class="mb-4">
+                <label class="form-label fw-bold">Kode Akses Anda</label>
+                <input type="text" class="form-control form-control-lg text-center" 
+                       name="kode_akses" placeholder="Contoh: A1B2C3" required
+                       style="font-size: 1.2rem; font-weight: bold; letter-spacing: 2px;">
+                <small class="text-muted">Dapatkan kode akses dari pengelola kost</small>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Pilih Status</label>
+                <div class="d-grid gap-2">
+                    <button type="submit" name="status" value="lanjut" class="btn btn-lanjut">
+                        ✅ LANJUT KOST
+                    </button>
+                    <button type="submit" name="status" value="stop" class="btn btn-stop">
+                        ❌ STOP KOST
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="mt-4 p-3" style="background: #f0f9ff; border-radius: 10px;">
+            <h6>💡 Cara Update Status:</h6>
+            <ol class="text-start small">
+                <li>Masukkan <strong>kode akses</strong> yang diberikan</li>
+                <li>Pilih <strong>LANJUT</strong> jika tetap ngekost</li>
+                <li>Pilih <strong>STOP</strong> jika berhenti ngekost</li>
+                <li>Status akan langsung terupdate</li>
+            </ol>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('status_kost') }}" class="btn btn-outline-pink me-2">📊 Lihat Semua Status</a>
+            <a href="{{ url_for('keluhan') }}" class="btn btn-pink">📝 Kirim Keluhan</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .keluhan-container {
+        background: linear-gradient(135deg, rgba(236, 72, 153, 0.9) 0%, rgba(219, 39, 119, 0.9) 100%);
+        min-height: 100vh;
+        padding: 40px 20px;
+    }
+    .keluhan-card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+</style>
+
+<div class="keluhan-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="keluhan-card">
+                    <h1 class="text-center mb-4">📝 Form Keluhan & Saran</h1>
+                    <p class="text-center text-muted mb-4">
+                        Sampaikan keluhan, kritik, atau saran Anda untuk perbaikan kost
+                    </p>
+                    
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Nama Lengkap *</label>
+                                    <input type="text" class="form-control" name="nama" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Nomor Kamar</label>
+                                    <input type="text" class="form-control" name="kamar" placeholder="Contoh: A1, B5">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Keluhan / Saran *</label>
+                            <textarea class="form-control" name="keluhan" rows="5" 
+                                      placeholder="Tuliskan keluhan atau saran Anda secara detail..." required></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Upload Foto (Opsional)</label>
+                            <input type="file" class="form-control" name="foto" accept="image/*">
+                            <small class="text-muted">Upload foto jika ada bukti visual (max 5MB)</small>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-pink btn-lg">
+                                📤 Kirim Keluhan
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center mt-4">
+                        <a href="{{ url_for('status_kost') }}" class="btn btn-outline-pink me-2">📊 Lihat Status Kost</a>
+                        <a href="{{ url_for('status_langganan') }}" class="btn btn-outline-pink me-2">📝 Update Status</a>
+                        <a href="{{ url_for('index') }}" class="btn btn-outline-pink">🏠 Kembali ke Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

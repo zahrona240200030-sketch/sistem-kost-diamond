@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('dashboard') }}">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('mahasiswa') }}">
+                            <i class="bi bi-people"></i> Data Mahasiswa
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('tambah_mahasiswa') }}">
+                            <i class="bi bi-person-plus"></i> Tambah Mahasiswa
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('admin_status_langganan') }}">
+                            <i class="bi bi-graph-up"></i> Status Langganan
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_keluhan') }}">
+                            <i class="bi bi-chat-dots"></i> Keluhan & Saran
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{{ url_for('logout') }}">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">📊 Status Langganan</h1>
+                <span class="badge bg-primary">Bulan: {{ bulan_sekarang }}</span>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nama Mahasiswa</th>
+                                    <th>NIM</th>
+                                    <th>Kamar</th>
+                                    <th>Status Saat Ini</th>
+                                    <th>Update Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for mhs in mahasiswa_list %}
+                                <tr>
+                                    <td>{{ mhs.nama }}</td>
+                                    <td>{{ mhs.nim }}</td>
+                                    <td>{{ mhs.kamar }}</td>
+                                    <td>
+                                        {% set current_status = mhs.status_langganan|selectattr('bulan', 'equalto', bulan_sekarang)|first %}
+                                        {% if current_status %}
+                                            {% if current_status.status == 'lanjut' %}
+                                            <span class="badge bg-success">LANJUT</span>
+                                            {% else %}
+                                            <span class="badge bg-danger">STOP</span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="badge bg-secondary">BELUM DIATUR</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <form method="POST" action="{{ url_for('update_status_langganan') }}" class="d-inline">
+                                            <input type="hidden" name="mahasiswa_id" value="{{ mhs.id }}">
+                                            <input type="hidden" name="bulan" value="{{ bulan_sekarang }}">
+                                            <div class="btn-group">
+                                                <button type="submit" name="status" value="lanjut" 
+                                                        class="btn btn-sm btn-outline-success {% if current_status and current_status.status == 'lanjut' %}active{% endif %}">
+                                                    LANJUT
+                                                </button>
+                                                <button type="submit" name="status" value="stop" 
+                                                        class="btn btn-sm btn-outline-danger {% if current_status and current_status.status == 'stop' %}active{% endif %}">
+                                                    STOP
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5>📊 Publikasi Status</h5>
+                    <p>Status langganan dapat dilihat publik di: 
+                        <a href="{{ url_for('status_kost') }}" target="_blank">{{ url_for('status_kost', _external=True) }}</a>
+                    </p>
+                    <a href="{{ url_for('status_kost') }}" target="_blank" class="btn btn-pink">
+                        👀 Lihat Halaman Publik
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

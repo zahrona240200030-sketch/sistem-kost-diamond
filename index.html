@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .welcome-container {
+        background: linear-gradient(135deg, rgba(236, 72, 153, 0.9) 0%, rgba(219, 39, 119, 0.9) 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .welcome-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://images.unsplash.com/photo-1555854877-bab0e564b8d5?ixlib=rb-4.0.1&auto=format&fit=crop&w=2069&q=80');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.2;
+        z-index: -1;
+    }
+    
+    .welcome-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 40px;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(236, 72, 153, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        max-width: 500px;
+        width: 90%;
+    }
+    
+    .welcome-title {
+        color: #ec4899;
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .welcome-subtitle {
+        color: #db2777;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    
+    .welcome-description {
+        color: #666;
+        font-size: 1rem;
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+    
+    .highlight-text {
+        background: linear-gradient(135deg, #ec4899, #db2777);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+    
+    .btn-pink {
+        background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+        border: none;
+        color: white;
+        padding: 15px 30px;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        margin: 10px 0;
+        width: 100%;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(236, 72, 153, 0.4);
+    }
+    
+    .btn-pink:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(236, 72, 153, 0.6);
+        color: white;
+    }
+    
+    .btn-outline-pink {
+        background: transparent;
+        border: 2px solid #ec4899;
+        color: #ec4899;
+        padding: 15px 30px;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        margin: 10px 0;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-outline-pink:hover {
+        background: #ec4899;
+        color: white;
+        transform: translateY(-3px);
+    }
+</style>
+
+<div class="welcome-container">
+    <div class="welcome-card">
+        <div style="font-size: 4rem; color: #ec4899; margin-bottom: 20px;">
+            🏠
+        </div>
+        
+        <h1 class="welcome-title">KOST DIAMOND</h1>
+        <h2 class="welcome-subtitle">Sistem Manajemen Penghuni Kost</h2>
+        
+        <p class="welcome-description">
+            Kelola data <span class="highlight-text">anak kost DIAMOND</span> dengan mudah, aman, dan efisien. 
+            Anda juga bisa taruh keluhan anda disini terimakasih!
+        </p>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <a href="{{ url_for('status_langganan') }}" class="btn btn-outline-pink w-100 mb-3">
+                    <i class="bi bi-pencil-square"></i><br>
+                    Update Status
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{{ url_for('status_kost') }}" class="btn btn-outline-pink w-100 mb-3">
+                    <i class="bi bi-eye"></i><br>
+                    Lihat Status
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{{ url_for('keluhan') }}" class="btn btn-outline-pink w-100 mb-3">
+                    <i class="bi bi-chat-dots"></i><br>
+                    Kirim Keluhan
+                </a>
+            </div>
+        </div>
+        
+        <div class="d-grid gap-2 mt-3">
+            <a href="{{ url_for('login') }}" class="btn btn-pink">
+                <i class="bi bi-box-arrow-in-right"></i> Masuk ke Sistem
+            </a>
+            <a href="{{ url_for('register') }}" class="btn btn-outline-pink">
+                <i class="bi bi-person-plus"></i> Buat Akun Baru
+            </a>
+        </div>
+        
+        <p style="margin-top: 30px; color: #999; font-size: 0.9rem;">
+            💖 <strong>Dibuat khusus untuk pengelola kost profesional</strong>
+        </p>
+    </div>
+</div>
+{% endblock %}
